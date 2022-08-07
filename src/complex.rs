@@ -17,6 +17,10 @@ impl Complex {
     pub fn mag(&self) -> f64 {
         f64::sqrt(self.mag2())
     }
+
+    pub fn norm(&self) -> f64 {
+        self.mag()
+    }
 }
 
 impl Add for Complex {
@@ -33,8 +37,8 @@ impl Mul for Complex {
     type Output = Self;
     fn mul(self, other: Self) -> Self {
         Self {
-            real: self.real * other.real,
-            imaginary: self.imaginary * other.imaginary,
+            real: self.real * other.real - self.imaginary * other.imaginary,
+            imaginary: self.real * other.imaginary + self.imaginary * other.real,
         }
     }
 }
@@ -82,7 +86,7 @@ mod tests {
             },
             Complex {
                 real: -1.875,
-                imaginary: 0.0
+                imaginary: 2.5
             }
         );
     }
