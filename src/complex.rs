@@ -3,10 +3,20 @@ use std::{
     ops::{Add, Mul},
 };
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Complex {
     pub real: f64,
     pub imaginary: f64,
+}
+
+impl Complex {
+    pub fn mag2(&self) -> f64 {
+        self.real * self.real + self.imaginary * self.imaginary
+    }
+
+    pub fn mag(&self) -> f64 {
+        f64::sqrt(self.mag2())
+    }
 }
 
 impl Add for Complex {
@@ -41,7 +51,7 @@ impl Display for Complex {
 
 #[cfg(test)]
 mod tests {
-    use super::*; // Note this useful idiom: importing names from outer (for mod tests) scope.
+    use super::*;
 
     #[test]
     fn test_addition() {
@@ -78,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn test_print() {
+    fn test_format() {
         assert_eq!(
             format!(
                 "{}",
@@ -89,5 +99,16 @@ mod tests {
             ),
             "1.5 - i2.25"
         )
+    }
+
+    #[test]
+    fn test_magnitude() {
+        let z = Complex {
+            real: 3.75,
+            imaginary: 1.25,
+        };
+        let z_mag2 = 15.625;
+        assert_eq!(z.mag2(), z_mag2);
+        assert_eq!(z.mag(), f64::sqrt(z_mag2));
     }
 }
