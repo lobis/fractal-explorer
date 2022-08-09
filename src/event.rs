@@ -70,6 +70,12 @@ pub async fn run() {
                             // new_inner_size is &mut so w have to dereference it twice
                             state.resize(**new_inner_size);
                         }
+                        WindowEvent::CursorMoved { position, .. } => {
+                            let size = window.inner_size();
+                            let normalized_x = position.x as f32 / size.width as f32;
+                            let normalized_y = position.y as f32 / size.height as f32;
+                            state.uniform.mouse = [normalized_x, normalized_y]; // from 0.0 to 1.0
+                        }
                         _ => {}
                     }
                 }
