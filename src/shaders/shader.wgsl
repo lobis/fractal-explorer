@@ -14,7 +14,7 @@ struct VertexInput {
 
 struct VertexOutput {
     @builtin(position) clip_position: vec4<f32>,
-    @location(0) tex_coords: vec2<f32>,
+    @location(0) position_xy: vec2<f32>,
 }
 
 @vertex
@@ -23,6 +23,7 @@ fn vs_main(
 ) -> VertexOutput {
     var out: VertexOutput;
     out.clip_position = vec4<f32>(model.position, 1.0);
+    out.position_xy = model.position.xy;
     return out;
 }
 
@@ -30,5 +31,14 @@ fn vs_main(
 
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
-    return vec4<f32>(my_uniform.mouse.xy, 0.0, 1.0);
+    let r: f32 = dot(in.position_xy, in.position_xy);
+    let vector_mouse_center = my_uniform.mouse - vec2<f32>(0.5, 0.5);
+    let r_check = max(dot(vector_mouse_center, vector_mouse_center), 0.01);
+    if (r > r_check) {
+        discard;
+    }
+
+    let normalized = (in.position_xy + vec2<f32>(1., 1.)) / 2.0;
+    let time_dependant = (sin(my_uniform.time * 5.0) + 1.0 ) / 2.0 ;
+    return vec4<f32>(normalized.rg, time_dependant, 1.0);
 }

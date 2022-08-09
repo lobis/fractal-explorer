@@ -26,7 +26,7 @@ impl Vertex {
     }
 }
 
-const SIZE: f32 = 0.95;
+const SIZE: f32 = 1.0;
 pub const VERTICES: &[Vertex] = &[
     Vertex {
         position: [-SIZE, -SIZE, 0.0],
@@ -44,6 +44,6 @@ pub const VERTICES: &[Vertex] = &[
 
 pub const INDICES: &[u16] = &[
     0, 1, 2, //
-    // 1, 0, 3, //
+    1, 0, 3, //
     /* padding */ 0,
 ];

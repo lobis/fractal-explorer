@@ -1,5 +1,6 @@
 use std::iter;
 
+use instant::Instant;
 use wgpu::util::DeviceExt;
 use winit::{event::*, window::Window};
 
@@ -16,6 +17,7 @@ pub struct State {
     vertex_buffer: wgpu::Buffer,
     index_buffer: wgpu::Buffer,
     num_indices: u32,
+    instant: Instant,
     //
     pub uniform: Uniform,
     uniform_buffer: wgpu::Buffer,
@@ -165,6 +167,7 @@ impl State {
             usage: wgpu::BufferUsages::INDEX,
         });
         let num_indices = INDICES.len() as u32;
+        let instant = Instant::now();
 
         Self {
             surface,
@@ -176,6 +179,7 @@ impl State {
             vertex_buffer,
             index_buffer,
             num_indices,
+            instant,
             uniform,
             uniform_buffer,
             uniform_bind_group,
@@ -197,6 +201,7 @@ impl State {
     }
 
     pub fn update(&mut self) {
+        self.uniform.time = self.instant.elapsed().as_secs_f32();
         self.queue.write_buffer(
             &self.uniform_buffer,
             0,
