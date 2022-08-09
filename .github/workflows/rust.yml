@@ -11,24 +11,37 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build
         run: cargo build --verbose
       - name: Run tests
         run: cargo test --verbose
-      - name: wasm
-        if: matrix.os == 'ubuntu-latest'
+
+  windows-executable:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Executable
+        run: |
+          cargo build --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-executable
+          path: target/release/${{ github.event.repository.name }}.exe
+
+  web-assembly:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: WASM build
         run: |
           cargo install wasm-pack
           wasm-pack build --target web
-      - name: windows-executable
-        if: matrix.os == 'windows-latest'
-        run: |
-          cargo build --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: web-assembly
+          path: |
+            index.html
+            pkg/
