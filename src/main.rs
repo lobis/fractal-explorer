@@ -1,4 +1,4 @@
-use fractal_generator::gpu::run;
+use fractal_generator::event::run;
 
 fn main() {
     pollster::block_on(run());
