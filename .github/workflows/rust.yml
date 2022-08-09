@@ -24,10 +24,10 @@ jobs:
       - name: Run tests
         run: cargo test --verbose
       - name: wasm
-        if: matrix.os == "ubuntu-latest"
+        if: matrix.os == 'ubuntu-latest'
         run: |
           wasm-pack build --target web
       - name: windows-executable
-        if: matrix.os == "windows-latest"
+        if: matrix.os == 'windows-latest'
         run: |
           cargo build --release
