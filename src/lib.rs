@@ -1,4 +1,1 @@
-pub mod complex;
-pub use complex::Complex;
-
-pub mod fractal;
+pub mod gpu;

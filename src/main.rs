@@ -1,3 +1,5 @@
+use fractal_generator::gpu::run;
+
 fn main() {
-    println!("Not doing anything yet!")
+    pollster::block_on(run());
 }
