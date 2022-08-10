@@ -1,7 +1,7 @@
 use winit::{
     event::*,
     event_loop::{ControlFlow, EventLoop},
-    window::WindowBuilder,
+    window::{Icon, WindowBuilder},
 };
 
 #[cfg(target_arch = "wasm32")]
@@ -22,6 +22,21 @@ pub async fn run() {
 
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new().build(&event_loop).unwrap();
+    let (icon_rgba, icon_width, icon_height) = {
+        let icon_bytes = include_bytes!("assets/icon.png");
+        let icon_image = image::load_from_memory(icon_bytes).unwrap();
+        let icon_rgba = icon_image.to_rgba8();
+
+        use image::GenericImageView;
+        let (width, height) = icon_image.dimensions();
+        let rgba = icon_rgba.into_raw();
+
+        (rgba, width, height)
+    };
+
+    let icon = Icon::from_rgba(icon_rgba, icon_width, icon_height).unwrap();
+    window.set_window_icon(Some(icon));
+    window.set_title("Fractal Explorer");
 
     #[cfg(target_arch = "wasm32")]
     {
