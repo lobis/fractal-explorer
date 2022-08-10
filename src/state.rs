@@ -208,25 +208,51 @@ impl State {
                         ..
                     },
                 ..
+            }
+            | WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::Plus),
+                        ..
+                    },
+                ..
+            }
+            | WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::Up),
+                        ..
+                    },
+                ..
             } => {
                 // zoom
                 self.c_from_mouse = false;
-                let mouse = self.uniform.mouse; // from 0.0 to 1.0
-                let r = 0.975;
-                let domain_size = [
-                    self.uniform.domain[0][1] - self.uniform.domain[0][0],
-                    self.uniform.domain[1][1] - self.uniform.domain[1][0],
-                ];
-                self.uniform.domain = [
-                    [
-                        self.uniform.domain[0][0] + (1.0 - r) * domain_size[0] * mouse[0],
-                        self.uniform.domain[0][1] - (1.0 - r) * domain_size[0] * (1.0 - mouse[0]),
-                    ],
-                    [
-                        self.uniform.domain[1][0] + (1.0 - r) * domain_size[1] * (1.0 - mouse[1]),
-                        self.uniform.domain[1][1] - (1.0 - r) * domain_size[1] * mouse[1],
-                    ],
-                ];
+                self.uniform.zoom(true);
+                true
+            }
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::Minus),
+                        ..
+                    },
+                ..
+            }
+            | WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::Down),
+                        ..
+                    },
+                ..
+            } => {
+                // zoom
+                self.c_from_mouse = false;
+                self.uniform.zoom(false);
                 true
             }
             WindowEvent::KeyboardInput {
