@@ -219,6 +219,14 @@ impl State {
                 ];
                 true
             }
+            WindowEvent::CursorMoved { position, .. } => {
+                self.uniform.c = [
+                    (position.x as f32 / self.size.width as f32 - 0.5) * 2.0,
+                    (position.y as f32 / self.size.height as f32 - 0.5) * 2.0,
+                ];
+                println!("{} {}", self.uniform.c[0], self.uniform.c[1]);
+                true
+            }
             _ => false,
         };
         false
