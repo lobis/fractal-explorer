@@ -30,7 +30,22 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: windows-executable
-          path: target/release/${{ github.event.repository.name }}.exe
+          path: |
+            target/release/${{ github.event.repository.name }}.exe
+
+  macos-executable:
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Executable
+        run: |
+          cargo build --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: macos-executable
+          path: |
+            target/release/
 
   web-assembly:
     needs: build
