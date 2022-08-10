@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Learning WGPU</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script type="module">
-        import init from "./pkg/fractal_generator.js";
-        init().then(() => {
-            console.log("WASM Loaded");
-        });
+      import init from "./pkg/fractal_explorer.js";
+      init().then(() => {
+        console.log("WASM Loaded");
+      });
     </script>
     <style>
-        canvas {
-            background-color: white;
-        }
+      canvas {
+        background-color: white;
+      }
     </style>
     <div id="wasm-anchor"></div>
-</body>
-
+  </body>
 </html>
