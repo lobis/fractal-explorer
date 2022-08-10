@@ -68,7 +68,7 @@ impl State {
         };
         surface.configure(&device, &config);
 
-        let uniform = Uniform::new();
+        let uniform = Uniform::default();
 
         let uniform_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Uniform Buffer"),
@@ -197,6 +197,30 @@ impl State {
 
     #[allow(unused_variables)]
     pub fn input(&mut self, event: &WindowEvent) -> bool {
+        match event {
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state,
+                        virtual_keycode: Some(VirtualKeyCode::Space),
+                        ..
+                    },
+                ..
+            } => {
+                self.uniform.domain = [
+                    [
+                        self.uniform.domain[0][0] * 0.95,
+                        self.uniform.domain[0][1] * 0.95,
+                    ],
+                    [
+                        self.uniform.domain[1][0] * 0.95,
+                        self.uniform.domain[1][1] * 0.95,
+                    ],
+                ];
+                true
+            }
+            _ => false,
+        };
         false
     }
 

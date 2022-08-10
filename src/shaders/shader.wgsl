@@ -2,6 +2,7 @@
 struct Uniform {
    mouse: vec2<f32>,
    time: f32,
+   domain: mat2x2<f32>,
 }
 @group(0) @binding(0) 
 var<uniform> my_uniform: Uniform;
@@ -36,7 +37,10 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     // let c: vec2<f32> = vec2<f32>(-0.75, 0.0);
 
     // z -> z * z + c | let z = (a + ib) and c = (c + id) then z * z + c = (a*a - b*b + c) + i(2*a*b + d)
-    var z: vec2<f32> = (in.position_xy - vec2<f32>(0.0, 0.0)) * 2.0;
+    let domain_size: vec2<f32> = vec2<f32>(my_uniform.domain[0].y - my_uniform.domain[0].x, my_uniform.domain[1].y - my_uniform.domain[1].x);
+    let domain_center: vec2<f32> = vec2<f32>(my_uniform.domain[0].y + my_uniform.domain[0].x, my_uniform.domain[1].y + my_uniform.domain[1].x) / 2.0;
+
+    var z: vec2<f32> = vec2<f32>(in.position_xy.x * domain_size.x, in.position_xy.y * domain_size.y) / 2.0 + domain_center;
 
     let iterations_max: i32 = 100;
     var i: i32 = 0;
