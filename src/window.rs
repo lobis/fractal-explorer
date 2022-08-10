@@ -38,6 +38,13 @@ pub async fn run() {
     window.set_window_icon(Some(icon));
     window.set_title("Fractal Explorer");
 
+    window.set_inner_size(winit::dpi::PhysicalSize {
+        width: 800,
+        height: 800,
+    });
+    window.set_outer_position(winit::dpi::LogicalPosition { x: 0, y: 0 });
+    // window.set_maximized(true);
+
     #[cfg(target_arch = "wasm32")]
     {
         // Winit prevents sizing with CSS, so we have to set
