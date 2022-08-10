@@ -18,6 +18,7 @@ pub struct State {
     index_buffer: wgpu::Buffer,
     num_indices: u32,
     instant: Instant,
+    c_from_mouse: bool,
     //
     pub uniform: Uniform,
     uniform_buffer: wgpu::Buffer,
@@ -27,7 +28,7 @@ pub struct State {
 impl State {
     pub async fn new(window: &Window) -> Self {
         let size = window.inner_size();
-
+        let c_from_mouse = true;
         // The instance is a handle to our GPU
         // BackendBit::PRIMARY => Vulkan + Metal + DX12 + Browser WebGPU
         let instance = wgpu::Instance::new(wgpu::Backends::all());
@@ -175,6 +176,7 @@ impl State {
             queue,
             config,
             size,
+            c_from_mouse,
             render_pipeline,
             vertex_buffer,
             index_buffer,
@@ -201,7 +203,7 @@ impl State {
             WindowEvent::KeyboardInput {
                 input:
                     KeyboardInput {
-                        state,
+                        state: ElementState::Pressed,
                         virtual_keycode: Some(VirtualKeyCode::Space),
                         ..
                     },
@@ -219,12 +221,25 @@ impl State {
                 ];
                 true
             }
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::C),
+                        ..
+                    },
+                ..
+            } => {
+                self.c_from_mouse = !self.c_from_mouse;
+                true
+            }
             WindowEvent::CursorMoved { position, .. } => {
-                self.uniform.c = [
-                    (position.x as f32 / self.size.width as f32 - 0.5) * 2.0,
-                    (position.y as f32 / self.size.height as f32 - 0.5) * 2.0,
-                ];
-                println!("{} {}", self.uniform.c[0], self.uniform.c[1]);
+                if self.c_from_mouse {
+                    self.uniform.c = [
+                        (position.x as f32 / self.size.width as f32 - 0.5) * 2.0,
+                        (position.y as f32 / self.size.height as f32 - 0.5) * 2.0,
+                    ];
+                }
                 true
             }
             _ => false,
