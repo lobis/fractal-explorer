@@ -58,11 +58,11 @@ fn get_color(fraction: f32, time: f32) -> vec3<f32> {
         return vec3<f32>(0.0, 0.0, 0.0);
     }
 
-    let freq: f32 = 0.05;
-    let sinusoidal = (sin(my_uniform.time * freq) + 1.0 ) / 2.0 ; // between 0.0 and 1.0
+    let period: f32 = 30.0; // seconds
+    let oscillating = (time / period ) % 1.0;
 
-    let color_end: vec3<f32> = hsv2rgb(sinusoidal, 1.0, 1.0);
-    let color_begin: vec3<f32> = hsv2rgb((sinusoidal + 0.5) % 1.0, 1.0, 1.0);
+    let color_end: vec3<f32> = hsv2rgb(oscillating, 1.0, 1.0);
+    let color_begin: vec3<f32> = hsv2rgb((oscillating + 0.5) % 1.0, 1.0, 1.0);
 
     return color_begin * fraction + color_end * (1.0 - fraction);
 }
