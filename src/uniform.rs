@@ -24,10 +24,7 @@ impl Uniform {
     }
 
     fn zoom(&mut self, zoom_in: bool) {
-        let domain_size = [
-            self.domain[0][1] - self.domain[0][0],
-            self.domain[1][1] - self.domain[1][0],
-        ];
+        let domain_size = self.get_domain_size();
         let domain_size_min = domain_size[0].min(domain_size[1]);
         if zoom_in && domain_size_min <= 0.00001 {
             // limit zoom in due to precision
@@ -60,5 +57,26 @@ impl Uniform {
 
     pub fn zoom_out(&mut self) {
         self.zoom(false);
+    }
+
+    pub fn get_domain_size(&self) -> [f32; 2] {
+        return [
+            self.domain[0][1] - self.domain[0][0],
+            self.domain[1][1] - self.domain[1][0],
+        ];
+    }
+
+    pub fn translate(&mut self, vector: [f32; 2]) {
+        let domain_size = self.get_domain_size();
+        self.domain = [
+            [
+                self.domain[0][0] - domain_size[0] * vector[0],
+                self.domain[0][1] - domain_size[0] * vector[0],
+            ],
+            [
+                self.domain[1][0] + domain_size[1] * vector[1],
+                self.domain[1][1] + domain_size[1] * vector[1],
+            ],
+        ];
     }
 }

@@ -19,6 +19,8 @@ pub struct State {
     num_indices: u32,
     instant: Instant,
     c_from_mouse: bool,
+    dragging: bool,
+    dragging_position_original: [f32; 2],
     //
     pub uniform: Uniform,
     uniform_buffer: wgpu::Buffer,
@@ -169,6 +171,8 @@ impl State {
         });
         let num_indices = INDICES.len() as u32;
         let instant = Instant::now();
+        let dragging = false;
+        let dragging_position_original = [0.0, 0.0];
 
         Self {
             surface,
@@ -177,6 +181,8 @@ impl State {
             config,
             size,
             c_from_mouse,
+            dragging,
+            dragging_position_original,
             render_pipeline,
             vertex_buffer,
             index_buffer,
@@ -195,10 +201,7 @@ impl State {
             self.config.height = new_size.height;
             self.surface.configure(&self.device, &self.config);
 
-            let domain_size = [
-                self.uniform.domain[0][1] - self.uniform.domain[0][0],
-                self.uniform.domain[1][1] - self.uniform.domain[1][0],
-            ];
+            let domain_size = self.uniform.get_domain_size();
 
             let ratio_window = self.size.width as f32 / self.size.height as f32;
 
@@ -340,6 +343,22 @@ impl State {
                 self.resize(self.size);
                 true
             }
+            WindowEvent::MouseInput {
+                state,
+                button: MouseButton::Middle,
+                ..
+            } => {
+                self.dragging_position_original = self.uniform.mouse;
+                match state {
+                    ElementState::Pressed => {
+                        self.dragging = true;
+                    }
+                    ElementState::Released => {
+                        self.dragging = false;
+                    }
+                }
+                true
+            }
             _ => false,
         };
         false
@@ -347,6 +366,14 @@ impl State {
 
     pub fn update(&mut self) {
         self.uniform.time = self.instant.elapsed().as_secs_f32();
+        if self.dragging {
+            self.uniform.translate([
+                self.uniform.mouse[0] - self.dragging_position_original[0],
+                self.uniform.mouse[1] - self.dragging_position_original[1],
+            ]);
+            self.dragging_position_original = self.uniform.mouse;
+        }
+
         self.queue.write_buffer(
             &self.uniform_buffer,
             0,
