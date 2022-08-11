@@ -67,25 +67,29 @@ fn get_color(fraction: f32, time: f32) -> vec3<f32> {
     return color_begin * fraction + color_end * (1.0 - fraction);
 }
 
+fn julia(z_start: vec2<f32>, c: vec2<f32>) -> f32 {
+
+    let iterations_max: i32 = 100;
+    var z: vec2<f32> = z_start;
+    var i: i32 = 0;
+    for (; i < iterations_max; i = i + 1) {
+        if (dot(z, z) > 4.0) { break; }
+        z = vec2<f32>((z.x * z.x) - (z.y * z.y) + c.x, (2.0 * z.x * z.y) + c.y);
+    }
+
+    return f32(i) / f32(iterations_max);
+}
+
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     // z -> z * z + c | let z = (a + ib) and c = (c + id) then z * z + c = (a*a - b*b + c) + i(2*a*b + d)
-
-    let c = my_uniform.c;
 
     let domain_size: vec2<f32> = vec2<f32>(my_uniform.domain[0].y - my_uniform.domain[0].x, my_uniform.domain[1].y - my_uniform.domain[1].x);
     let domain_center: vec2<f32> = vec2<f32>(my_uniform.domain[0].y + my_uniform.domain[0].x, my_uniform.domain[1].y + my_uniform.domain[1].x) / 2.0;
 
     var z: vec2<f32> = vec2<f32>(in.position_xy.x * domain_size.x, in.position_xy.y * domain_size.y) / 2.0 + domain_center;
 
-    let iterations_max: i32 = 100;
-    var i: i32 = 0;
-    for (; i < iterations_max; i = i + 1) {
-        if (dot(z, z) > 4.0) {break;}
-        z = vec2<f32>((z.x * z.x) - (z.y * z.y) + c.x, (2.0 * z.x * z.y) + c.y);
-    }
-
-    let fraction: f32 = f32(i) / f32(iterations_max);
+    let fraction: f32 = julia(z, my_uniform.c);
 
     let color = get_color(fraction, my_uniform.time);
 
