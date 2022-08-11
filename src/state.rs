@@ -276,6 +276,11 @@ impl State {
                         ..
                     },
                 ..
+            }
+            | WindowEvent::MouseInput {
+                state: ElementState::Pressed,
+                button: MouseButton::Left,
+                ..
             } => {
                 self.c_from_mouse = !self.c_from_mouse;
                 true
@@ -292,11 +297,13 @@ impl State {
             WindowEvent::MouseWheel { delta, .. } => {
                 match delta {
                     MouseScrollDelta::LineDelta(x, y) => {
-                        //
-                        println!("{}", y);
                         if y.abs() > 0.0 {
                             let zoom_in: bool = y > &0.0;
-                            let zoom_many_times: u32 = y.abs() as u32;
+                            let mut zoom_many_times: u32 = y.abs() as u32;
+                            if zoom_many_times > 1 {
+                                // when users scrolls fast, zoom much faster
+                                zoom_many_times = zoom_many_times * 5;
+                            }
                             self.c_from_mouse = false;
                             for _ in 0..zoom_many_times {
                                 if zoom_in {
@@ -311,6 +318,28 @@ impl State {
                 }
                 true
             }
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::R),
+                        ..
+                    },
+                ..
+            }
+            | WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::F5),
+                        ..
+                    },
+                ..
+            } => {
+                self.uniform.domain = Uniform::default().domain;
+                self.resize(self.size);
+                true
+            }
             _ => false,
         };
         false
@@ -323,18 +352,6 @@ impl State {
             0,
             bytemuck::cast_slice(&[self.uniform]),
         );
-        /*
-        let size_x = self.uniform.domain[0][1] - self.uniform.domain[0][0];
-        let size_y = self.uniform.domain[1][1] - self.uniform.domain[1][0];
-        println!(
-            "c = {} + i{} | size_x = {} | size_y = {} | ratio = {}",
-            self.uniform.c[0],
-            self.uniform.c[1],
-            size_x,
-            size_y,
-            size_x / size_y
-        );
-        */
     }
 
     pub fn render(&mut self) -> Result<(), wgpu::SurfaceError> {
