@@ -31,6 +31,42 @@ fn vs_main(
 
 // Fragment shader
 
+fn hsv2rgb(hue: f32, saturation: f32, value: f32) -> vec3<f32> {
+    // hue, saturation and value must be between 0.0 and 1.0
+    // formula adapted from https://www.tlbx.app/color-converter
+    let h = hue * 6.0;
+    let chroma = saturation * value;
+    let x = chroma * (1.0 - abs(h % 2.0 - 1.0));
+    let m = value - chroma;
+    if (h <= 1.0) {
+        return vec3<f32>(chroma + m, x + m, m);
+    } else if (h <= 2.0) {
+        return vec3<f32>(x + m, chroma + m, m);
+    } else if (h <= 3.0) {
+        return vec3<f32>(m, chroma + m, x + m);
+    } else if (h <= 4.0) {
+        return vec3<f32>(m, x + m, chroma + m);
+    } else if (h <= 5.0) {
+        return vec3<f32>(x + m, m, chroma + m);
+    } else {
+        return vec3<f32>(chroma + m, m, x + m);
+    }
+}
+
+fn get_color(fraction: f32, time: f32) -> vec3<f32> {
+    if (fraction >= 1.0) {
+        return vec3<f32>(0.0, 0.0, 0.0);
+    }
+
+    let freq: f32 = 0.05;
+    let sinusoidal = (sin(my_uniform.time * freq) + 1.0 ) / 2.0 ; // between 0.0 and 1.0
+
+    let color_end: vec3<f32> = hsv2rgb(sinusoidal, 1.0, 1.0);
+    let color_begin: vec3<f32> = hsv2rgb((sinusoidal + 0.5) % 1.0, 1.0, 1.0);
+
+    return color_begin * fraction + color_end * (1.0 - fraction);
+}
+
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     // z -> z * z + c | let z = (a + ib) and c = (c + id) then z * z + c = (a*a - b*b + c) + i(2*a*b + d)
@@ -51,18 +87,7 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 
     let fraction: f32 = f32(i) / f32(iterations_max);
 
-    var color = vec3<f32>(0.0, 0.0, 0.0);
-    if (i < iterations_max) {
-        let pi: f32 = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
-        let freq: f32 = 1.0;
-        let time_dependant_1 = (sin(my_uniform.time * freq * (1.0 / 3.0) + 0.0) + 1.0 ) / 2.0 ;
-        let time_dependant_2 = (sin(my_uniform.time * freq * 0.5 + 1.0 * pi / 3.0) + 1.0 ) / 2.0 ;
-        let time_dependant_3 = (sin(my_uniform.time * freq * 0.25 + 2.0 * pi / 3.0) + 1.0 ) / 2.0 ;
+    let color = get_color(fraction, my_uniform.time);
 
-        let color_end: vec3<f32> = vec3<f32>(time_dependant_1, time_dependant_2, time_dependant_3);
-        let color_begin: vec3<f32> = vec3<f32>(1.0, 1.0, 1.0) - color_end;
-
-        color = color_begin * fraction + color_end * (1.0 - fraction);
-    }
     return vec4<f32>(color, 1.0);
 }
