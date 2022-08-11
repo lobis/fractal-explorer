@@ -194,6 +194,21 @@ impl State {
             self.config.width = new_size.width;
             self.config.height = new_size.height;
             self.surface.configure(&self.device, &self.config);
+
+            let domain_size = [
+                self.uniform.domain[0][1] - self.uniform.domain[0][0],
+                self.uniform.domain[1][1] - self.uniform.domain[1][0],
+            ];
+
+            let ratio_window = self.size.width as f32 / self.size.height as f32;
+
+            let domain_size_target_y = domain_size[0] / ratio_window;
+            let domain_size_delta_y = domain_size[1] - domain_size_target_y;
+
+            self.uniform.domain[1] = [
+                self.uniform.domain[1][0] + domain_size_delta_y / 2.0,
+                self.uniform.domain[1][1] - domain_size_delta_y / 2.0,
+            ];
         }
     }
 
