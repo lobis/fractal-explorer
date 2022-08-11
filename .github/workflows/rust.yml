@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  EXECUTABLE_NAME: fractal-explorer-app
 
 jobs:
   build:
@@ -31,7 +32,7 @@ jobs:
         with:
           name: windows-executable
           path: |
-            target/release/${{ github.event.repository.name }}.exe
+            target/release/${{ env.EXECUTABLE_NAME }}.exe
 
   macos-executable:
     needs: build
@@ -45,7 +46,7 @@ jobs:
         with:
           name: macos-executable
           path: |
-            target/release/${{ github.event.repository.name }}
+            target/release/${{ env.EXECUTABLE_NAME }}
 
   web-assembly:
     needs: build
