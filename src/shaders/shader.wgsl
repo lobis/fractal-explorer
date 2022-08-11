@@ -53,10 +53,13 @@ fn hsv2rgb(hue: f32, saturation: f32, value: f32) -> vec3<f32> {
     }
 }
 
-fn get_color(fraction: f32, time: f32) -> vec3<f32> {
-    if (fraction >= 1.0) {
+fn get_color(fraction_: f32, time: f32) -> vec3<f32> {
+    if (fraction_ >= 1.0) {
         return vec3<f32>(0.0, 0.0, 0.0);
     }
+
+    let pi: f32 = 3.14159265358979323846264338327950288419716939937510582097494459;
+    let fraction = sin(fraction_ * pi * 5.0);
 
     let period: f32 = 30.0; // seconds
     let oscillating = (time / period ) % 1.0;
@@ -69,7 +72,7 @@ fn get_color(fraction: f32, time: f32) -> vec3<f32> {
 
 fn julia(z_start: vec2<f32>, c: vec2<f32>) -> f32 {
 
-    let iterations_max: i32 = 100;
+    let iterations_max: i32 = 255;
     var z: vec2<f32> = z_start;
     var i: i32 = 0;
     for (; i < iterations_max; i = i + 1) {
