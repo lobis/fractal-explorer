@@ -2,6 +2,8 @@
 name = "fractal-explorer"
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/lobis/fractal-explorer"
+description = "A simple Julia Set explorer built using Rust"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
