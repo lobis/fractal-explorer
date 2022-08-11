@@ -23,9 +23,9 @@ impl Uniform {
         }
     }
 
-    pub fn zoom(&mut self, zoom_into: bool) {
+    fn zoom(&mut self, zoom_in: bool) {
         let zoom_factor: f32 = 0.025;
-        let r: f32 = if zoom_into {
+        let r: f32 = if zoom_in {
             1.0 - zoom_factor
         } else {
             1.0 + zoom_factor
@@ -45,5 +45,13 @@ impl Uniform {
                 self.domain[1][1] - (1.0 - r) * domain_size[1] * mouse[1],
             ],
         ];
+    }
+
+    pub fn zoom_in(&mut self) {
+        self.zoom(true);
+    }
+
+    pub fn zoom_out(&mut self) {
+        self.zoom(false);
     }
 }

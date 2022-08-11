@@ -1,4 +1,4 @@
-#![windows_subsystem = "windows"]
+#![windows_subsystem = "windows"] // Remove this to use console for debugging
 
 use fractal_explorer::window::run;
 

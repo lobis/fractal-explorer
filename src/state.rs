@@ -227,9 +227,8 @@ impl State {
                     },
                 ..
             } => {
-                // zoom
                 self.c_from_mouse = false;
-                self.uniform.zoom(true);
+                self.uniform.zoom_in();
                 true
             }
             WindowEvent::KeyboardInput {
@@ -250,9 +249,8 @@ impl State {
                     },
                 ..
             } => {
-                // zoom
                 self.c_from_mouse = false;
-                self.uniform.zoom(false);
+                self.uniform.zoom_out();
                 true
             }
             WindowEvent::KeyboardInput {
