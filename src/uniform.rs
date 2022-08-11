@@ -24,6 +24,16 @@ impl Uniform {
     }
 
     fn zoom(&mut self, zoom_in: bool) {
+        let domain_size = [
+            self.domain[0][1] - self.domain[0][0],
+            self.domain[1][1] - self.domain[1][0],
+        ];
+        let domain_size_min = domain_size[0].min(domain_size[1]);
+        if zoom_in && domain_size_min <= 0.00001 {
+            // limit zoom in due to precision
+            return;
+        }
+
         let zoom_factor: f32 = 0.025;
         let r: f32 = if zoom_in {
             1.0 - zoom_factor
@@ -31,10 +41,7 @@ impl Uniform {
             1.0 + zoom_factor
         };
         let mouse = self.mouse; // from 0.0 to 1.0
-        let domain_size = [
-            self.domain[0][1] - self.domain[0][0],
-            self.domain[1][1] - self.domain[1][0],
-        ];
+
         self.domain = [
             [
                 self.domain[0][0] + (1.0 - r) * domain_size[0] * mouse[0],

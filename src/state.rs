@@ -285,7 +285,19 @@ impl State {
             &self.uniform_buffer,
             0,
             bytemuck::cast_slice(&[self.uniform]),
-        )
+        );
+        /*
+        let size_x = self.uniform.domain[0][1] - self.uniform.domain[0][0];
+        let size_y = self.uniform.domain[1][1] - self.uniform.domain[1][0];
+        println!(
+            "c = {} + i{} | size_x = {} | size_y = {} | ratio = {}",
+            self.uniform.c[0],
+            self.uniform.c[1],
+            size_x,
+            size_y,
+            size_x / size_y
+        );
+        */
     }
 
     pub fn render(&mut self) -> Result<(), wgpu::SurfaceError> {
