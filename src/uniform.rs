@@ -3,9 +3,11 @@
 pub struct Uniform {
     pub mouse: [f32; 2],
     pub time: f32,
-    _padding0: u32, // necessary to avoid error
+    _padding0: i32, // necessary to avoid error
     pub domain: [[f32; 2]; 2],
     pub c: [f32; 2],
+    pub mandelbrot: i32,
+    _padding1: i32, // necessary to avoid error
 }
 
 impl Uniform {
@@ -14,12 +16,15 @@ impl Uniform {
         let time = 0.0;
         let domain = [[-1.55, 1.55], [-1.55, 1.55]];
         let c = [-0.75, 0.0];
+        let mandelbrot = 0; // 0 is false, > 0 is true (cannot use bool)
         Self {
             mouse,
             time,
             domain,
             c,
+            mandelbrot,
             _padding0: 0,
+            _padding1: 0,
         }
     }
 

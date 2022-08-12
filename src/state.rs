@@ -359,6 +359,33 @@ impl State {
                 }
                 true
             }
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::M),
+                        ..
+                    },
+                ..
+            } => {
+                self.uniform.mandelbrot = 1;
+                self.c_from_mouse = false;
+                self.uniform.c = [0.0, 0.0];
+                true
+            }
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::J),
+                        ..
+                    },
+                ..
+            } => {
+                self.uniform.mandelbrot = 0;
+                self.c_from_mouse = true;
+                true
+            }
             _ => false,
         };
         false

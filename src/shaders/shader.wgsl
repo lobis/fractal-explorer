@@ -4,6 +4,7 @@ struct Uniform {
    time: f32,
    domain: mat2x2<f32>,
    c: vec2<f32>,
+   mandelbrot: i32,
 }
 @group(0) @binding(0) 
 var<uniform> my_uniform: Uniform;
@@ -92,7 +93,13 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 
     var z: vec2<f32> = vec2<f32>(in.position_xy.x * domain_size.x, in.position_xy.y * domain_size.y) / 2.0 + domain_center;
 
-    let fraction: f32 = julia(z, my_uniform.c);
+    var fraction: f32;
+    if (my_uniform.mandelbrot <= 0) {
+        // use julia set
+        fraction = julia(z, my_uniform.c);
+    } else {
+        fraction = julia(my_uniform.c, z);
+    }
 
     let color = get_color(fraction, my_uniform.time);
 
