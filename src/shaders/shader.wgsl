@@ -1,6 +1,6 @@
 
 struct Uniform {
-   domain: mat2x2<f32>, 
+   domain: vec4<f32>,
    mouse: vec2<f32>,
    c: vec2<f32>,        
    time: f32,          
@@ -89,8 +89,8 @@ fn julia(z_start: vec2<f32>, c: vec2<f32>) -> f32 {
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     // z -> z * z + c | let z = (a + ib) and c = (c + id) then z * z + c = (a*a - b*b + c) + i(2*a*b + d)
 
-    let domain_size: vec2<f32> = vec2<f32>(my_uniform.domain[0].y - my_uniform.domain[0].x, my_uniform.domain[1].y - my_uniform.domain[1].x);
-    let domain_center: vec2<f32> = vec2<f32>(my_uniform.domain[0].y + my_uniform.domain[0].x, my_uniform.domain[1].y + my_uniform.domain[1].x) / 2.0;
+    let domain_size: vec2<f32> = vec2<f32>(my_uniform.domain[1] - my_uniform.domain[0], my_uniform.domain[3] - my_uniform.domain[2]);
+    let domain_center: vec2<f32> = vec2<f32>(my_uniform.domain[1] + my_uniform.domain[0], my_uniform.domain[3] + my_uniform.domain[2]) / 2.0;
 
     var z: vec2<f32> = vec2<f32>(in.position_xy.x * domain_size.x, in.position_xy.y * domain_size.y) / 2.0 + domain_center;
 
