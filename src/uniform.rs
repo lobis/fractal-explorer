@@ -1,13 +1,12 @@
 #[repr(C)]
 #[derive(Copy, Clone, Debug, bytemuck::Zeroable, bytemuck::Pod)]
 pub struct Uniform {
-    pub mouse: [f32; 2],
-    pub time: f32,
-    _padding0: i32, // necessary to avoid error
     pub domain: [[f32; 2]; 2],
+    pub mouse: [f32; 2],
     pub c: [f32; 2],
+    pub time: f32,
     pub mandelbrot: i32,
-    _padding1: i32, // necessary to avoid error
+    pub _padding: [f32; 2],
 }
 
 impl Uniform {
@@ -23,8 +22,7 @@ impl Uniform {
             domain,
             c,
             mandelbrot,
-            _padding0: 0,
-            _padding1: 0,
+            _padding: [0.0, 0.0],
         }
     }
 

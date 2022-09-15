@@ -1,10 +1,10 @@
 
 struct Uniform {
+   domain: mat2x2<f32>, 
    mouse: vec2<f32>,
-   time: f32,
-   domain: mat2x2<f32>,
-   c: vec2<f32>,
-   mandelbrot: i32,
+   c: vec2<f32>,        
+   time: f32,          
+   mandelbrot: i32,   
 }
 @group(0) @binding(0) 
 var<uniform> my_uniform: Uniform;
