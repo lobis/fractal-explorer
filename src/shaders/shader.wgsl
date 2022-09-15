@@ -5,6 +5,7 @@ struct Uniform {
    c: vec2<f32>,        
    time: f32,          
    mandelbrot: i32,   
+   padding: vec2<f32>,
 }
 @group(0) @binding(0) 
 var<uniform> my_uniform: Uniform;
