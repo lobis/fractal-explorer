@@ -215,6 +215,11 @@ impl State {
         }
     }
 
+    pub fn reset_zoom(&mut self) {
+        self.uniform.domain = Uniform::default().domain;
+        self.resize(self.size);
+    }
+
     #[allow(unused_variables)]
     pub fn input(&mut self, event: &WindowEvent) -> bool {
         match event {
@@ -286,6 +291,10 @@ impl State {
                 ..
             } => {
                 self.c_from_mouse = !self.c_from_mouse;
+
+                // reset zoom
+                self.reset_zoom();
+
                 true
             }
             WindowEvent::CursorMoved { position, .. } => {
@@ -339,8 +348,7 @@ impl State {
                     },
                 ..
             } => {
-                self.uniform.domain = Uniform::default().domain;
-                self.resize(self.size);
+                self.reset_zoom();
                 true
             }
             WindowEvent::MouseInput {
