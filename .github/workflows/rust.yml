@@ -59,7 +59,27 @@ jobs:
           wasm-pack build --target web
       - uses: actions/upload-artifact@v3
         with:
-          name: web-assembly
+          name: web-assembly-build
           path: |
             index.html
             pkg/
+
+  deploy: # https://github.com/actions/deploy-pages
+    needs: web-assembly
+    runs-on: ubuntu-latest
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+        with:
+          artifact_name: web-assembly-build
