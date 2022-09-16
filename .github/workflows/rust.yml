@@ -12,6 +12,7 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,6 +22,7 @@ jobs:
         run: cargo test --verbose
 
   windows-executable:
+    name: Windows executable
     needs: build
     runs-on: windows-latest
     steps:
@@ -35,6 +37,7 @@ jobs:
             target/release/${{ env.EXECUTABLE_NAME }}.exe
 
   macos-executable:
+    name: macOS executable
     needs: build
     runs-on: macos-latest
     steps:
@@ -49,6 +52,7 @@ jobs:
             target/release/${{ env.EXECUTABLE_NAME }}
 
   web-assembly:
+    name: WebAssembly build
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -75,9 +79,10 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "."
+          path: "." # TODO: Upload only required files
 
   deploy: # https://github.com/actions/deploy-pages
+    name: GitHub Pages deployment
     needs: web-assembly
     runs-on: ubuntu-latest
 
