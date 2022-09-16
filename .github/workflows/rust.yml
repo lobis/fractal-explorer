@@ -61,17 +61,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: web-assembly-build
-          path: |
-            pkg/
-            index.html
-            src/assets/icon.png
-
-            - name: Upload artifact
-
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
+          name: github-pages
           path: |
             pkg/
             index.html
