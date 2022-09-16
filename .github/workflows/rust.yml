@@ -61,8 +61,9 @@ jobs:
         with:
           name: web-assembly-build
           path: |
-            index.html
             pkg/
+            index.html
+            src/assets/icon.png
 
   deploy: # https://github.com/actions/deploy-pages
     needs: web-assembly
