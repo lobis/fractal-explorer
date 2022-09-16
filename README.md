@@ -2,6 +2,8 @@
 
 A simple Julia Set explorer built using Rust.
 
+### [Demo](https://lobis.github.io/fractal-explorer/)
+
 ### Build
 
 To build the executable run:
