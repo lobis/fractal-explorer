@@ -57,9 +57,21 @@ jobs:
         run: |
           cargo install wasm-pack
           wasm-pack build --target web
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
           name: web-assembly-build
+          path: |
+            pkg/
+            index.html
+            src/assets/icon.png
+
+            - name: Upload artifact
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
           path: |
             pkg/
             index.html
@@ -82,5 +94,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-        with:
-          artifact_name: web-assembly-build
