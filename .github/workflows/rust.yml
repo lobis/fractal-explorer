@@ -61,11 +61,19 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: github-pages
+          name: web-assembly-build
           path: |
             pkg/
             index.html
             src/assets/icon.png
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "."
 
   deploy: # https://github.com/actions/deploy-pages
     needs: web-assembly
