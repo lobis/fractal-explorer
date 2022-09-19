@@ -38,19 +38,8 @@ pub async fn run() {
     window.set_window_icon(Some(icon));
     window.set_title("Fractal Explorer");
 
-    /*
-    window.set_inner_size(winit::dpi::PhysicalSize {
-        width: 800,
-        height: 800,
-    });
-    window.set_outer_position(winit::dpi::LogicalPosition { x: 0, y: 0 });
-    */
-    // window.set_maximized(true);
-
     #[cfg(target_arch = "wasm32")]
     {
-        // Winit prevents sizing with CSS, so we have to set
-        // the size manually when on web.
         use winit::dpi::PhysicalSize;
         window.set_inner_size(PhysicalSize::new(800, 800));
 
@@ -60,7 +49,7 @@ pub async fn run() {
             .and_then(|doc| {
                 let anchor = doc.get_element_by_id("wasm-anchor")?;
                 let canvas = window.canvas();
-                // canvas.style().set_css_text("display: block; height: 100%");
+                // canvas.style().set_css_text("display: block; width: 100%");
                 anchor.append_child(&web_sys::Element::from(canvas)).ok()?;
                 Some(())
             })
