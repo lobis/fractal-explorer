@@ -1,5 +1,7 @@
 ## Fractal Explorer
 
+[![build](https://github.com/lobis/fractal-explorer/actions/workflows/rust.yml/badge.svg)](https://github.com/lobis/fractal-explorer/actions/workflows/rust.yml)
+
 A simple Julia Set explorer built using Rust.
 
 ### [Demo](https://lobis.github.io/fractal-explorer/)
