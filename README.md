@@ -1,4 +1,4 @@
-# Fractal Explorer
+# [Fractal Explorer](https://lobis.github.io/fractal-explorer/)
 
 [![build](https://github.com/lobis/fractal-explorer/actions/workflows/rust.yml/badge.svg)](https://github.com/lobis/fractal-explorer/actions/workflows/rust.yml)
 
