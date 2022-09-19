@@ -58,9 +58,10 @@ pub async fn run() {
         web_sys::window()
             .and_then(|win| win.document())
             .and_then(|doc| {
-                let dst = doc.get_element_by_id("wasm-anchor")?;
-                let canvas = web_sys::Element::from(window.canvas());
-                dst.append_child(&canvas).ok()?;
+                let anchor = doc.get_element_by_id("wasm-anchor")?;
+                let canvas = window.canvas();
+                // canvas.style().set_css_text("display: block; height: 100%");
+                anchor.append_child(&web_sys::Element::from(canvas)).ok()?;
                 Some(())
             })
             .expect("Couldn't append canvas to document body.");
