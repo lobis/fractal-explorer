@@ -11,7 +11,7 @@ description = "A simple Julia Set explorer built using Rust"
 # https://github.com/burtonageo/cargo-bundle
 name = "fractal-explorer"
 identifier = "io.github.lobis.fractal-explorer"
-icon = ["src/assets/icon.png"]
+icon = ["public/assets/icon.png"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -22,7 +22,7 @@ path = "src/main.rs"
 
 [dependencies]
 cfg-if = "1"
-winit = "0.26"
+winit = "0.27"
 env_logger = "0.9"
 log = "0.4"
 wgpu = "0.13"
