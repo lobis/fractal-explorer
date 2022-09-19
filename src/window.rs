@@ -23,7 +23,7 @@ pub async fn run() {
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new().build(&event_loop).unwrap();
     let (icon_rgba, icon_width, icon_height) = {
-        let icon_bytes = include_bytes!("assets/icon.png");
+        let icon_bytes = include_bytes!("../public/assets/icon.png");
         let icon_image = image::load_from_memory(icon_bytes).unwrap();
         let icon_rgba = icon_image.to_rgba8();
 
@@ -91,7 +91,7 @@ pub async fn run() {
                             state.resize(*physical_size);
                         }
                         WindowEvent::ScaleFactorChanged { new_inner_size, .. } => {
-                            // new_inner_size is &mut so w have to dereference it twice
+                            // new_inner_size is &mut so we have to dereference it twice
                             state.resize(**new_inner_size);
                         }
                         WindowEvent::CursorMoved { position, .. } => {
@@ -119,8 +119,7 @@ pub async fn run() {
                 }
             }
             Event::MainEventsCleared => {
-                // RedrawRequested will only trigger once, unless we manually
-                // request it.
+                // RedrawRequested will only trigger once, unless we manually request it.
                 window.request_redraw();
             }
             _ => {}
