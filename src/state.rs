@@ -293,7 +293,12 @@ impl State {
                 self.c_from_mouse = !self.c_from_mouse;
 
                 // reset zoom
-                self.reset_zoom();
+                if (self.uniform.domain[0][1] - self.uniform.domain[0][0])
+                    < (Uniform::default().domain[0][1] - Uniform::default().domain[0][0])
+                {
+                    // do not reset when zoomed out
+                    self.reset_zoom();
+                }
 
                 true
             }
