@@ -41,19 +41,26 @@ pub async fn run() {
     #[cfg(target_arch = "wasm32")]
     {
         use winit::dpi::PhysicalSize;
-        window.set_inner_size(PhysicalSize::new(800, 800));
-
         use winit::platform::web::WindowExtWebSys;
         web_sys::window()
             .and_then(|win| win.document())
             .and_then(|doc| {
-                let anchor = doc.get_element_by_id("wasm-anchor")?;
+                let anchor = doc
+                    .get_element_by_id("wasm-anchor")
+                    .expect("element 'wasm-anchor' missing in document");
+
+                let (width, height) = (anchor.client_width(), anchor.client_height());
+
+                window.set_inner_size(PhysicalSize::new(width, height));
+
                 let canvas = window.canvas();
-                // canvas.style().set_css_text("display: block; width: 100%");
+                canvas
+                    .style()
+                    .set_css_text(&format!("width: {}px; height: {}px", width, height));
                 anchor.append_child(&web_sys::Element::from(canvas)).ok()?;
                 Some(())
             })
-            .expect("Couldn't append canvas to document body.");
+            .expect("Couldn't append canvas to document body");
     }
 
     // State::new uses async code, so we're going to wait for it to finish
