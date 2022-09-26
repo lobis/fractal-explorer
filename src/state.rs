@@ -218,6 +218,17 @@ impl State {
     pub fn reset_zoom(&mut self) {
         self.uniform.domain = Uniform::default().domain;
         self.resize(self.size);
+
+        let size_y = self.uniform.domain[1][1] - self.uniform.domain[1][0];
+        let size_y_min = (Uniform::default().domain[1][1] - Uniform::default().domain[1][0]) * 0.75;
+        if size_y < size_y_min {
+            let ratio = size_y_min / size_y;
+            self.uniform.domain[1] = [-size_y_min / 2.0, size_y_min / 2.0];
+            self.uniform.domain[0] = [
+                self.uniform.domain[0][0] * ratio,
+                self.uniform.domain[0][1] * ratio,
+            ];
+        }
     }
 
     #[allow(unused_variables)]

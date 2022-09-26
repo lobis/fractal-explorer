@@ -65,6 +65,7 @@ pub async fn run() {
 
     // State::new uses async code, so we're going to wait for it to finish
     let mut state = State::new(&window).await;
+    state.reset_zoom(); // resize at start
 
     event_loop.run(move |event, _, control_flow| {
         match event {
