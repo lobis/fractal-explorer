@@ -329,6 +329,7 @@ impl State {
             }
             WindowEvent::MouseWheel { delta, .. } => {
                 match delta {
+                    // TODO: reduce code duplication
                     MouseScrollDelta::LineDelta(x, y) => {
                         if y.abs() > 0.0 {
                             let zoom_in: bool = y > &0.0;
@@ -347,7 +348,21 @@ impl State {
                             }
                         }
                     }
-                    _ => {}
+                    MouseScrollDelta::PixelDelta(position) => {
+                        let y = position.y;
+                        if y.abs() > 0.0 {
+                            let zoom_in: bool = y > 0.0;
+                            let zoom_many_times: u32 = y.abs() as u32;
+                            self.c_from_mouse = false;
+                            for _ in 0..zoom_many_times {
+                                if zoom_in {
+                                    self.uniform.zoom_in();
+                                } else {
+                                    self.uniform.zoom_out();
+                                }
+                            }
+                        }
+                    }
                 }
                 true
             }
