@@ -388,7 +388,7 @@ impl State {
             }
             WindowEvent::MouseInput {
                 state,
-                button: MouseButton::Middle,
+                button: MouseButton::Middle | MouseButton::Right,
                 ..
             } => {
                 self.dragging_position_original = self.uniform.mouse;
@@ -400,10 +400,6 @@ impl State {
                         self.dragging = false;
                     }
                 }
-                println!(
-                    "{}, {}",
-                    self.dragging_position_original[0], self.dragging_position_original[1]
-                );
                 true
             }
             WindowEvent::KeyboardInput {
