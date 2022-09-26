@@ -231,7 +231,6 @@ impl State {
         }
     }
 
-    #[allow(unused_variables)]
     pub fn input(&mut self, event: &WindowEvent) -> bool {
         match event {
             WindowEvent::KeyboardInput {
@@ -330,7 +329,7 @@ impl State {
             WindowEvent::MouseWheel { delta, .. } => {
                 match delta {
                     // TODO: reduce code duplication
-                    MouseScrollDelta::LineDelta(x, y) => {
+                    MouseScrollDelta::LineDelta(y, ..) => {
                         if y.abs() > 0.0 {
                             let zoom_in: bool = y > &0.0;
                             let mut zoom_many_times: u32 = y.abs() as u32;
