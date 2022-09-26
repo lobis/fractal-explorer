@@ -30,7 +30,7 @@ pub struct State {
 impl State {
     pub async fn new(window: &Window) -> Self {
         let size = window.inner_size();
-        let c_from_mouse = true;
+        let c_from_mouse = false;
         // The instance is a handle to our GPU
         // BackendBit::PRIMARY => Vulkan + Metal + DX12 + Browser WebGPU
         let instance = wgpu::Instance::new(wgpu::Backends::all());
@@ -290,6 +290,11 @@ impl State {
                 button: MouseButton::Left,
                 ..
             } => {
+                if self.uniform.mandelbrot == 1 {
+                    self.c_from_mouse = false;
+                    return true;
+                }
+
                 self.c_from_mouse = !self.c_from_mouse;
 
                 // reset zoom
@@ -370,6 +375,10 @@ impl State {
                         self.dragging = false;
                     }
                 }
+                println!(
+                    "{}, {}",
+                    self.dragging_position_original[0], self.dragging_position_original[1]
+                );
                 true
             }
             WindowEvent::KeyboardInput {
@@ -384,6 +393,11 @@ impl State {
                 self.uniform.mandelbrot = 1;
                 self.c_from_mouse = false;
                 self.uniform.c = [0.0, 0.0];
+                self.reset_zoom();
+                // center the mandelbrot a bit
+                let shift = 0.6;
+                self.uniform.domain[0][0] -= shift;
+                self.uniform.domain[0][1] -= shift;
                 true
             }
             WindowEvent::KeyboardInput {
@@ -396,7 +410,9 @@ impl State {
                 ..
             } => {
                 self.uniform.mandelbrot = 0;
-                self.c_from_mouse = true;
+                self.c_from_mouse = false;
+                self.reset_zoom();
+                self.uniform.c = Uniform::default().c;
                 true
             }
             _ => false,
