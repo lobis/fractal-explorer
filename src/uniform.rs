@@ -28,10 +28,18 @@ impl Uniform {
 
     fn zoom(&mut self, zoom_in: bool) {
         let domain_size = self.get_domain_size();
-        let domain_size_min = domain_size[0].min(domain_size[1]);
-        if zoom_in && domain_size_min <= 0.00001 {
+        if zoom_in {
             // limit zoom in due to precision
-            return;
+            let domain_size_min = domain_size[0].min(domain_size[1]);
+            if domain_size_min <= 0.00001 {
+                return;
+            }
+        } else {
+            // do not allow arbitrary zoom out
+            let domain_size_max = domain_size[0].max(domain_size[1]);
+            if domain_size_max >= 20.0 {
+                return;
+            }
         }
 
         let zoom_factor: f32 = 0.025;
