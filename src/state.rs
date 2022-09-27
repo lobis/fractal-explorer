@@ -327,17 +327,10 @@ impl State {
                 true
             }
             WindowEvent::MouseWheel { delta, .. } => {
-                let y: f32;
-                match delta {
-                    MouseScrollDelta::LineDelta(_, line_delta_y) => {
-                        // For desktop app
-                        y = *line_delta_y;
-                    }
-                    MouseScrollDelta::PixelDelta(position) => {
-                        // For web
-                        y = position.y as f32;
-                    }
-                }
+                let y: f32 = match delta {
+                    MouseScrollDelta::LineDelta(_, line_delta_y) => *line_delta_y,
+                    MouseScrollDelta::PixelDelta(position) => position.y as f32,
+                };
                 if y.abs() > 0.0 {
                     let mut zoom_many_times: u32 = 1;
                     if y.abs() > 1.0 {
