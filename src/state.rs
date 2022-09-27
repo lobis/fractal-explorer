@@ -329,7 +329,7 @@ impl State {
             WindowEvent::MouseWheel { delta, .. } => {
                 match delta {
                     // TODO: reduce code duplication
-                    MouseScrollDelta::LineDelta(y, ..) => {
+                    MouseScrollDelta::LineDelta(_, y) => {
                         if y.abs() > 0.0 {
                             let zoom_in: bool = y > &0.0;
                             let mut zoom_many_times: u32 = y.abs() as u32;
