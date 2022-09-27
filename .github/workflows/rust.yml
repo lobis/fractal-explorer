@@ -8,7 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  EXECUTABLE_NAME: fractal-explorer
+  EXECUTABLE_NAME: fractal-explorer-app
 
 jobs:
   build:

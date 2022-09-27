@@ -4,7 +4,21 @@ version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/lobis/fractal-explorer"
 authors = ["Luis Antonio Obis Aparicio <luis.antonio.obis@gmail.com>"]
-description = "A simple Julia Set and Mandelbrot interactive explorer built using Rust. It can run as a desktop application or on the web. Web demo available at https://lobis.github.io/fractal-explorer/"
+description = "A simple Julia Set explorer built using Rust"
+
+[package.metadata.bundle.fractal-explorer]
+# Not working on Windows (hopefully fixed soon! haven't testing in other platforms)
+# https://github.com/burtonageo/cargo-bundle
+name = "fractal-explorer"
+identifier = "io.github.lobis.fractal-explorer"
+icon = ["public/assets/icon.png"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "fractal-explorer-app"
+path = "src/main.rs"
 
 [dependencies]
 cfg-if = "1"
