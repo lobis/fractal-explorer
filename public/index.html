@@ -17,6 +17,15 @@
       init().then(() => {
         console.log("WASM Loaded");
       });
+
+      // Disable right click menu
+      document.addEventListener(
+        "contextmenu",
+        function (e) {
+          e.preventDefault();
+        },
+        false
+      );
     </script>
     <style>
       canvas {
