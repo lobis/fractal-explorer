@@ -327,39 +327,29 @@ impl State {
                 true
             }
             WindowEvent::MouseWheel { delta, .. } => {
+                let y: f32;
                 match delta {
-                    // TODO: reduce code duplication
-                    MouseScrollDelta::LineDelta(_, y) => {
-                        if y.abs() > 0.0 {
-                            let zoom_in: bool = y > &0.0;
-                            let mut zoom_many_times: u32 = y.abs() as u32;
-                            if zoom_many_times > 1 {
-                                // when users scrolls fast, zoom much faster
-                                zoom_many_times = zoom_many_times * 5;
-                            }
-                            self.c_from_mouse = false;
-                            for _ in 0..zoom_many_times {
-                                if zoom_in {
-                                    self.uniform.zoom_in();
-                                } else {
-                                    self.uniform.zoom_out();
-                                }
-                            }
-                        }
+                    MouseScrollDelta::LineDelta(_, line_delta_y) => {
+                        // For desktop app
+                        y = *line_delta_y;
                     }
                     MouseScrollDelta::PixelDelta(position) => {
-                        let y = position.y;
-                        if y.abs() > 0.0 {
-                            let zoom_in: bool = y > 0.0;
-                            let zoom_many_times: u32 = y.abs() as u32;
-                            self.c_from_mouse = false;
-                            for _ in 0..zoom_many_times {
-                                if zoom_in {
-                                    self.uniform.zoom_in();
-                                } else {
-                                    self.uniform.zoom_out();
-                                }
-                            }
+                        // For web
+                        y = position.y as f32;
+                    }
+                }
+                if y.abs() > 0.0 {
+                    let mut zoom_many_times: u32 = 1;
+                    if y.abs() > 1.0 {
+                        // when users scrolls fast, zoom much faster
+                        zoom_many_times = 5;
+                    }
+                    let zoom_in: bool = y > 0.0;
+                    for _ in 0..zoom_many_times {
+                        if zoom_in {
+                            self.uniform.zoom_in();
+                        } else {
+                            self.uniform.zoom_out();
                         }
                     }
                 }
