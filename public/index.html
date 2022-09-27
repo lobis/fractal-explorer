@@ -17,15 +17,6 @@
       init().then(() => {
         console.log("WASM Loaded");
       });
-
-      // Disable right click menu
-      document.addEventListener(
-        "contextmenu",
-        function (e) {
-          e.preventDefault();
-        },
-        false
-      );
     </script>
     <style>
       canvas {
@@ -45,7 +36,7 @@
         height: 100%;
       }
     </style>
-    <div id="wasm-anchor"></div>
+    <div id="wasm-anchor" oncontextmenu="return false;" >
 
     <!-- GitHub corner from https://github.com/tholman/github-corners -->
     <a
