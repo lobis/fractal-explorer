@@ -1,4 +1,5 @@
 use winit::{
+    dpi::{LogicalPosition, PhysicalPosition},
     event::*,
     event_loop::{ControlFlow, EventLoop},
     window::{Icon, WindowBuilder},
@@ -93,9 +94,13 @@ pub async fn run() {
                             state.resize(**new_inner_size);
                         }
                         WindowEvent::CursorMoved { position, .. } => {
+                            let position: LogicalPosition<f64> =
+                                PhysicalPosition::to_logical(&position, window.scale_factor());
                             let size = window.inner_size();
+
                             let normalized_x = position.x as f32 / size.width as f32;
                             let normalized_y = position.y as f32 / size.height as f32;
+
                             state.uniform.mouse = [normalized_x, normalized_y]; // from 0.0 to 1.0
                         }
                         _ => {}
