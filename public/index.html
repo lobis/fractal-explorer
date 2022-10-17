@@ -49,9 +49,48 @@
     }
   </style>
   <div id="wasm-anchor" oncontextmenu="return false;">
+    <!-- help tooltip box based on https://github.com/Ngalstyan4/Mandelbrot-wasm-rust-rayon -->
+    <div id="help">
+      <span id="help-close-button" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Usage Instructions:</strong> <br /><br />
+      <strong>Left Click:</strong> Toggle Julia set <i>c</i> parameter selection. <br />
+      <strong>Cursor Movement:</strong> Select <i>c</i> parameter. <br />
+      <strong>Mouse Wheel / Trackpad / Up & Down Arrow Keys:</strong> Zoom on cursor position <br />
+      <strong>Right Click:</strong> Hold and drag to translate fractal <br />
+      <strong>J/M</strong> Toggle between Julia and Mandelbrot <br />
+
+    </div>
+    <style>
+      #help {
+        padding: 15px;
+        background-color: white;
+        opacity: 70%;
+        color: black;
+        z-index: 9999;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 500px;
+        font-size: 20px;
+      }
+
+      #help:hover {
+        opacity: 100%;
+      }
+
+      #help-close-button {
+        margin-left: 15px;
+        color: black;
+        font-weight: bold;
+        float: right;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+    </style>
+
     <!-- GitHub corner from https://github.com/tholman/github-corners -->
     <a href="https://github.com/lobis/fractal-explorer" class="github-corner" aria-label="View source on GitHub">
-      <svg id="github-icon" width="3.5%" viewBox="0 0 250 250" style="
+      <svg id="github-icon" width="80px" viewBox="0 0 250 250" style="
             fill: #151513;
             color: #fff;
             position: absolute;
