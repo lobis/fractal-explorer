@@ -24,6 +24,8 @@ To build the executable run:
 cargo build --release
 ```
 
+There is a Windows executable available as an artifact of the v0.1.0 release which can be downloaded [here](https://github.com/lobis/fractal-explorer/releases/download/v0.1.0/fractal-explorer-app.exe). Please always be very careful when downloading executable files from the internet.
+
 To build the web application run the following command. You may need to install `wasm-pack` via `cargo install wasm-pack`.
 
 ```
