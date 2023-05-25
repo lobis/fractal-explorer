@@ -53,14 +53,19 @@
     <div id="help">
       <span id="help-close-button" onclick="this.parentElement.style.display='none';">&times;</span>
       <strong>Usage Instructions</strong>: <br /><br />
-      <strong>Left Click</strong>: Toggle Julia set <i>c</i> parameter selection. <br />
-      <strong>Cursor Movement</strong>: Select <i>c</i> parameter. <br />
-      <strong>Mouse Wheel | Trackpad | Up & Down Arrow Keys:</strong>: Zoom on cursor position. <br />
-      <strong>Right Click</strong>: Hold and drag to translate fractal. <br />
-      <strong>J | M Keys</strong>: Toggle between Julia and Mandelbrot. <br />
-
+      <strong>Left Click</strong>: Toggle Julia set <i>c</i> parameter selection<br />
+      <strong>Cursor Movement</strong>: Select <i>c</i> parameter<br />
+      <strong>Mouse Wheel | Trackpad | ⬆️ & ⬇️ Arrow Keys</strong>: Zoom on cursor position<br />
+      <strong>Right Click</strong>: Hold and drag to translate fractal<br />
+      <strong>J | M Keys</strong>: Toggle between Julia and Mandelbrot<br />
     </div>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+      body {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
       #help {
         padding: 15px;
         background-color: white;
@@ -70,7 +75,7 @@
         position: absolute;
         bottom: 10px;
         right: 10px;
-        width: 500px;
+        width: 800px;
         font-size: 20px;
       }
 

@@ -1,5 +1,7 @@
+use bytemuck::{Pod, Zeroable};
+
+#[derive(Copy, Clone, Debug, Zeroable, Pod)]
 #[repr(C)]
-#[derive(Copy, Clone, Debug, bytemuck::Zeroable, bytemuck::Pod)]
 pub struct Uniform {
     pub domain: [[f32; 2]; 2],
     pub mouse: [f32; 2],
