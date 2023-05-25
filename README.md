@@ -26,10 +26,15 @@ cargo build --release
 
 There is a Windows executable available as an artifact of the v0.1.0 release which can be downloaded [here](https://github.com/lobis/fractal-explorer/releases/download/v0.1.0/fractal-explorer-app.exe). Please always be very careful when downloading executable files from the internet.
 
+## 🌐 Web
 To build the web application run the following command. You may need to install `wasm-pack` via `cargo install wasm-pack`.
 
 ```
 wasm-pack build --target web --out-dir public/pkg
 ```
 
-All files related to the static site will be placed under `public` with `index.html` the entrypoint. You need to serve these files with a static http server such as [VSCode Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
+All files related to the static site will be placed under `public` with `index.html` the entrypoint. You can server the site locally using `python3 -m http.server` and then navigating to `http://localhost:8000`.
+
+```
+python -m http.server 8000 --bind 127.0.0.1 --directory public
+```
