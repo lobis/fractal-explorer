@@ -2,12 +2,12 @@
 struct Uniform {
    domain: vec4<f32>,
    mouse: vec2<f32>,
-   c: vec2<f32>,        
-   time: f32,          
-   mandelbrot: i32,   
+   c: vec2<f32>,
+   time: f32,
+   mandelbrot: i32,
    padding: vec2<f32>,
 }
-@group(0) @binding(0) 
+@group(0) @binding(0)
 var<uniform> my_uniform: Uniform;
 
 // Vertex shader
