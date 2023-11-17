@@ -2,6 +2,7 @@ use std::iter;
 
 use instant::Instant;
 use wgpu::util::DeviceExt;
+use wgpu::Gles3MinorVersion;
 use winit::{event::*, window::Window};
 
 use crate::uniform::Uniform;
@@ -36,6 +37,8 @@ impl State {
         let instance = wgpu::Instance::new(wgpu::InstanceDescriptor {
             backends: wgpu::Backends::all(),
             dx12_shader_compiler: Default::default(),
+            flags: wgpu::InstanceFlags::default(),
+            gles_minor_version: Gles3MinorVersion::default(),
         });
         let surface = unsafe { instance.create_surface(&window) }.unwrap();
         let adapter = instance
@@ -71,7 +74,7 @@ impl State {
             .formats
             .iter()
             .copied()
-            .filter(|f| f.describe().srgb)
+            // .filter(|f| f.describe().srgb)
             .next()
             .unwrap_or(surface_caps.formats[0]);
 
@@ -476,10 +479,12 @@ impl State {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(wgpu::Color::WHITE),
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                occlusion_query_set: None,
+                timestamp_writes: None,
             });
 
             render_pass.set_pipeline(&self.render_pipeline);
