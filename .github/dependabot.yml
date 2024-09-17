@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # GitHub Actions updates
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -8,3 +9,9 @@ updates:
       actions:
         patterns:
           - "*"
+
+  # Rust updates
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: monthly
