@@ -23,7 +23,7 @@ pollster = "0.3"
 bytemuck = { version = "1.14", features = ["derive"] }
 instant = "0.1"
 [dependencies.image]
-version = "0.24"
+version = "0.25"
 default-features = false
 features = ["png"]
 
