@@ -18,7 +18,7 @@ cfg-if = "1"
 winit = "0.28"
 env_logger = "0.10"
 log = "0.4"
-wgpu = "0.18"
+wgpu = "0.19"
 pollster = "0.3"
 bytemuck = { version = "1.14", features = ["derive"] }
 instant = "0.1"
